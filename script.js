@@ -16,6 +16,32 @@ keys.forEach(function (key) {
   key.addEventListener("click", clickButton);
 });
 
+const correctGuesses = [];
+let misses = 0;
+
+const displayLetter = (letter, arrOfIndices) => {
+  console.log(letter);
+  console.log(arrOfIndices);
+
+  for (let i = 0; i < arrOfIndices.length; i++) {
+    correctGuesses.push({
+      index: "letter" + arrOfIndices[i],
+      letter: letter,
+    });
+  }
+  console.log(correctGuesses);
+};
+
+const addStick = () => {
+  if (misses > 7) {
+    console.log("YOU LOSE!");
+    // display word
+  } else {
+    misses++;
+    console.log(misses);
+  }
+};
+
 const getWord = () => {
   const word = words[Math.floor(Math.random() * words.length)].toLowerCase();
   console.log(word);
@@ -33,20 +59,18 @@ const checkLetter = (key) => {
     }
   }
 
-  console.log(key, word);
-  console.log(indices);
-
-  if (indices.length > 0) {
-    letter.setAttribute("style", "background-color: lightgreen;");
-  } else {
+  if (indices.length === 0) {
     letter.setAttribute("style", "background-color: gray;");
+    addStick();
+  } else {
+    letter.setAttribute("style", "background-color: lightgreen;");
+    displayLetter(key, indices);
   }
-
-  // set key to grey for selected, not in word
-  // set key to green for selected, in word
-  // display key(s) in their correct position in word
 };
 
+// lose game when misses.length === 8
+// win game when correctGuesses.length === 8
+
+// display key(s) in their correct position in word
 // add sticks to figure for incorrect letters
-// win game
-// lose game
+// save stats in localstorage
