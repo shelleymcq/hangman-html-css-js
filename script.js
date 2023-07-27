@@ -1,11 +1,19 @@
 import words from "./words.json" assert { type: "json" };
 
 const keys = document.querySelectorAll("button");
+let correctGuesses = [];
+let misses = 0;
 
 const clickButton = (e) => {
   let key = e.target.getAttribute("id");
 
   if (key === "play-btn") {
+    const keyboard = document.querySelectorAll(".key");
+    keyboard.forEach(function (key) {
+      key.setAttribute("style", "background-color: white;");
+    });
+    misses = 0;
+    correctGuesses = [];
     getWord();
   } else {
     checkLetter(key);
@@ -16,8 +24,11 @@ keys.forEach(function (key) {
   key.addEventListener("click", clickButton);
 });
 
-const correctGuesses = [];
-let misses = 0;
+const getWord = () => {
+  const word = words[Math.floor(Math.random() * words.length)].toLowerCase();
+  console.log(word);
+  localStorage.setItem("word", word);
+};
 
 const displayLetter = (letter, arrOfIndices) => {
   console.log(letter);
@@ -29,23 +40,22 @@ const displayLetter = (letter, arrOfIndices) => {
       letter: letter,
     });
   }
-  console.log(correctGuesses);
+
+  if (correctGuesses.length === 8) {
+    console.log("YOU WIN!");
+  } else {
+    console.log(correctGuesses);
+  }
 };
 
 const addStick = () => {
-  if (misses > 7) {
+  if (misses > 6) {
     console.log("YOU LOSE!");
     // display word
   } else {
     misses++;
     console.log(misses);
   }
-};
-
-const getWord = () => {
-  const word = words[Math.floor(Math.random() * words.length)].toLowerCase();
-  console.log(word);
-  localStorage.setItem("word", word);
 };
 
 const checkLetter = (key) => {
@@ -70,7 +80,8 @@ const checkLetter = (key) => {
 
 // lose game when misses.length === 8
 // win game when correctGuesses.length === 8
-
+// can only click a key once
 // display key(s) in their correct position in word
 // add sticks to figure for incorrect letters
+// disable keyboard if new game not clicked and/or clear local word on reload
 // save stats in localstorage
