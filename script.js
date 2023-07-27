@@ -71,16 +71,17 @@ const checkLetter = (key) => {
 
   if (indices.length === 0) {
     letter.setAttribute("style", "background-color: gray;");
+    letter.removeEventListener("click", clickButton);
     addStick();
   } else {
     letter.setAttribute("style", "background-color: lightgreen;");
+    letter.removeEventListener("click", clickButton);
     displayLetter(key, indices);
   }
 };
 
 // lose game when misses.length === 8
 // win game when correctGuesses.length === 8
-// can only click a key once
 // display key(s) in their correct position in word
 // add sticks to figure for incorrect letters
 // disable keyboard if new game not clicked and/or clear local word on reload
