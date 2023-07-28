@@ -11,6 +11,7 @@ const clickButton = (e) => {
     const keyboard = document.querySelectorAll(".key");
     keyboard.forEach(function (key) {
       key.setAttribute("style", "background-color: white;");
+      key.addEventListener("click", clickButton);
     });
 
     const tiles = document.querySelectorAll(".letter");
@@ -57,13 +58,13 @@ const correctLetter = (letter, arrOfIndices) => {
   displayLetter(letter, arrOfIndices);
 
   if (correctGuesses.length === 8) {
-    console.log("YOU WIN!");
+    alert("YOU WIN!");
   }
 };
 
-const addStick = () => {
+const addStick = (word) => {
   if (misses > 6) {
-    console.log("YOU LOSE!");
+    alert("You Lose!, the word was " + word.toUpperCase());
   } else {
     misses++;
     console.log(misses);
@@ -84,7 +85,7 @@ const checkLetter = (key) => {
   if (indices.length === 0) {
     letter.setAttribute("style", "background-color: gray;");
     letter.removeEventListener("click", clickButton);
-    addStick();
+    addStick(word);
   } else {
     letter.setAttribute("style", "background-color: lightgreen;");
     letter.removeEventListener("click", clickButton);
