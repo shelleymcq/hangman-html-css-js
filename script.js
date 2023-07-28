@@ -12,6 +12,12 @@ const clickButton = (e) => {
     keyboard.forEach(function (key) {
       key.setAttribute("style", "background-color: white;");
     });
+
+    const tiles = document.querySelectorAll(".letter");
+    tiles.forEach(function (tile) {
+      tile.innerText = "";
+    });
+
     misses = 0;
     correctGuesses = [];
     getWord();
@@ -31,6 +37,13 @@ const getWord = () => {
 };
 
 const displayLetter = (letter, arrOfIndices) => {
+  for (let i = 0; i < arrOfIndices.length; i++) {
+    let display = document.getElementById("letter" + arrOfIndices[i]);
+    display.innerText = letter;
+  }
+};
+
+const correctLetter = (letter, arrOfIndices) => {
   console.log(letter);
   console.log(arrOfIndices);
 
@@ -41,17 +54,16 @@ const displayLetter = (letter, arrOfIndices) => {
     });
   }
 
+  displayLetter(letter, arrOfIndices);
+
   if (correctGuesses.length === 8) {
     console.log("YOU WIN!");
-  } else {
-    console.log(correctGuesses);
   }
 };
 
 const addStick = () => {
   if (misses > 6) {
     console.log("YOU LOSE!");
-    // display word
   } else {
     misses++;
     console.log(misses);
@@ -76,13 +88,12 @@ const checkLetter = (key) => {
   } else {
     letter.setAttribute("style", "background-color: lightgreen;");
     letter.removeEventListener("click", clickButton);
-    displayLetter(key, indices);
+    correctLetter(key, indices);
   }
 };
 
-// lose game when misses.length === 8
-// win game when correctGuesses.length === 8
 // display key(s) in their correct position in word
 // add sticks to figure for incorrect letters
+// add WIN/Lose <dialog> (try out that new element!)
 // disable keyboard if new game not clicked and/or clear local word on reload
 // save stats in localstorage
