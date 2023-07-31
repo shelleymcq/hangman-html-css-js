@@ -1,8 +1,23 @@
 import words from "./words.json" assert { type: "json" };
 
-const keys = document.querySelectorAll("button");
-let correctGuesses = [];
+const imagePaths = [
+  "./images/gallows.png",
+  "./images/gallows0.png",
+  "./images/gallows1.png",
+  "./images/gallows2.png",
+  "./images/gallows3.png",
+  "./images/gallows4.png",
+  "./images/gallows5.png",
+  "./images/gallows6.png",
+  "./images/gallows7.png",
+];
+
 let misses = 0;
+let correctGuesses = [];
+
+const gallowsImage = document.getElementById("gallows");
+
+const keys = document.querySelectorAll("button");
 
 const clickButton = (e) => {
   let key = e.target.getAttribute("id");
@@ -18,7 +33,6 @@ const clickButton = (e) => {
     tiles.forEach(function (tile) {
       tile.innerText = "";
     });
-
     misses = 0;
     correctGuesses = [];
     getWord();
@@ -63,11 +77,8 @@ const correctLetter = (letter, arrOfIndices) => {
 };
 
 const addStick = (word) => {
-  if (misses > 6) {
+  if (misses > 7) {
     alert("You Lose!, the word was " + word.toUpperCase());
-  } else {
-    misses++;
-    console.log(misses);
   }
 };
 
@@ -85,6 +96,8 @@ const checkLetter = (key) => {
   if (indices.length === 0) {
     letter.setAttribute("style", "background-color: gray;");
     letter.removeEventListener("click", clickButton);
+    misses++;
+    gallowsImage.src = imagePaths[misses];
     addStick(word);
   } else {
     letter.setAttribute("style", "background-color: lightgreen;");
